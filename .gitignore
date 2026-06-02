@@ -1,0 +1,10 @@
+node_modules/
+dist/
+
+.idea/
+Web PVre/
+
+*.tsbuildinfo
+
+.DS_Store
+Thumbs.db
