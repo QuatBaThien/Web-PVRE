@@ -1094,80 +1094,80 @@ export function InwardContractDetail() {
         </Form>
       </Card>
 
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-[0.92fr_1.08fr]">
-        <Card className="rounded-2xl shadow-panel" title="Danh sách chứng từ giao dịch">
-          <SimpleDataTable columns={transactionColumns} dataSource={transactionRows} rowKey="id" pagination={{ pageSize: 5 }} />
-        </Card>
+      {/*<div className="grid grid-cols-1 gap-4 xl:grid-cols-[0.92fr_1.08fr]">*/}
+      {/*  <Card className="rounded-2xl shadow-panel" title="Danh sách chứng từ giao dịch">*/}
+      {/*    <SimpleDataTable columns={transactionColumns} dataSource={transactionRows} rowKey="id" pagination={{ pageSize: 5 }} />*/}
+      {/*  </Card>*/}
 
-        <Card className="rounded-2xl shadow-panel" title="Details / Statistics">
-          <Tabs
-            items={[
-              {
-                key: 'details-tabs',
-                label: 'Details',
-                children: (
-                  <NestedTabs
-                    size="small"
-                    items={[
-                      {
-                        key: 'structure',
-                        label: 'Structure',
-                        children: <SimpleDataTable columns={sectionRetroColumns} dataSource={sectionRetroRows} rowKey="id" pagination={false} />,
-                      },
-                      {
-                        key: 'prem-payment-terms',
-                        label: 'Prem Payment Terms',
-                        children: <SimpleDataTable columns={installmentColumns} dataSource={installmentRows} rowKey="id" pagination={false} />,
-                      },
-                      {
-                        key: 'accumulation',
-                        label: 'Accumulation',
-                        children: <SimpleDataTable columns={sourceDetailColumns} dataSource={sourceDetailRows.slice(0, 4)} rowKey="id" pagination={false} />,
-                      },
-                      {
-                        key: 'protection',
-                        label: 'Protection',
-                        children: <SimpleDataTable columns={retroFeeColumns} dataSource={retroFeeRows} rowKey="id" pagination={false} />,
-                      },
-                    ]}
-                  />
-                ),
-              },
-              {
-                key: 'statistics-tabs',
-                label: 'Statistics',
-                children: (
-                  <NestedTabs
-                    size="small"
-                    items={[
-                      {
-                        key: 'claim-information',
-                        label: 'Claim Information',
-                        children: <SimpleDataTable columns={transactionColumns} dataSource={transactionRows.slice(0, 4)} rowKey="id" pagination={false} />,
-                      },
-                      {
-                        key: 'policy-efficiency',
-                        label: 'Hiệu quả đơn',
-                        children: <SimpleDataTable columns={transactionColumns} dataSource={transactionRows.slice(1, 5)} rowKey="id" pagination={false} />,
-                      },
-                      {
-                        key: 'contract-efficiency',
-                        label: 'Hiệu quả HĐ',
-                        children: <SimpleDataTable columns={transactionColumns} dataSource={transactionRows.slice(2, 6)} rowKey="id" pagination={false} />,
-                      },
-                      {
-                        key: 'placement-efficiency',
-                        label: 'Hiệu quả thu xếp',
-                        children: <SimpleDataTable columns={transactionColumns} dataSource={transactionRows.slice(3, 7)} rowKey="id" pagination={false} />,
-                      },
-                    ]}
-                  />
-                ),
-              },
-            ]}
-          />
-        </Card>
-      </div>
+      {/*  <Card className="rounded-2xl shadow-panel" title="Details / Statistics">*/}
+      {/*    <Tabs*/}
+      {/*      items={[*/}
+      {/*        {*/}
+      {/*          key: 'details-tabs',*/}
+      {/*          label: 'Details',*/}
+      {/*          children: (*/}
+      {/*            <NestedTabs*/}
+      {/*              size="small"*/}
+      {/*              items={[*/}
+      {/*                {*/}
+      {/*                  key: 'structure',*/}
+      {/*                  label: 'Structure',*/}
+      {/*                  children: <SimpleDataTable columns={sectionRetroColumns} dataSource={sectionRetroRows} rowKey="id" pagination={false} />,*/}
+      {/*                },*/}
+      {/*                {*/}
+      {/*                  key: 'prem-payment-terms',*/}
+      {/*                  label: 'Prem Payment Terms',*/}
+      {/*                  children: <SimpleDataTable columns={installmentColumns} dataSource={installmentRows} rowKey="id" pagination={false} />,*/}
+      {/*                },*/}
+      {/*                {*/}
+      {/*                  key: 'accumulation',*/}
+      {/*                  label: 'Accumulation',*/}
+      {/*                  children: <SimpleDataTable columns={sourceDetailColumns} dataSource={sourceDetailRows.slice(0, 4)} rowKey="id" pagination={false} />,*/}
+      {/*                },*/}
+      {/*                {*/}
+      {/*                  key: 'protection',*/}
+      {/*                  label: 'Protection',*/}
+      {/*                  children: <SimpleDataTable columns={retroFeeColumns} dataSource={retroFeeRows} rowKey="id" pagination={false} />,*/}
+      {/*                },*/}
+      {/*              ]}*/}
+      {/*            />*/}
+      {/*          ),*/}
+      {/*        },*/}
+      {/*        {*/}
+      {/*          key: 'statistics-tabs',*/}
+      {/*          label: 'Statistics',*/}
+      {/*          children: (*/}
+      {/*            <NestedTabs*/}
+      {/*              size="small"*/}
+      {/*              items={[*/}
+      {/*                {*/}
+      {/*                  key: 'claim-information',*/}
+      {/*                  label: 'Claim Information',*/}
+      {/*                  children: <SimpleDataTable columns={transactionColumns} dataSource={transactionRows.slice(0, 4)} rowKey="id" pagination={false} />,*/}
+      {/*                },*/}
+      {/*                {*/}
+      {/*                  key: 'policy-efficiency',*/}
+      {/*                  label: 'Hiệu quả đơn',*/}
+      {/*                  children: <SimpleDataTable columns={transactionColumns} dataSource={transactionRows.slice(1, 5)} rowKey="id" pagination={false} />,*/}
+      {/*                },*/}
+      {/*                {*/}
+      {/*                  key: 'contract-efficiency',*/}
+      {/*                  label: 'Hiệu quả HĐ',*/}
+      {/*                  children: <SimpleDataTable columns={transactionColumns} dataSource={transactionRows.slice(2, 6)} rowKey="id" pagination={false} />,*/}
+      {/*                },*/}
+      {/*                {*/}
+      {/*                  key: 'placement-efficiency',*/}
+      {/*                  label: 'Hiệu quả thu xếp',*/}
+      {/*                  children: <SimpleDataTable columns={transactionColumns} dataSource={transactionRows.slice(3, 7)} rowKey="id" pagination={false} />,*/}
+      {/*                },*/}
+      {/*              ]}*/}
+      {/*            />*/}
+      {/*          ),*/}
+      {/*        },*/}
+      {/*      ]}*/}
+      {/*    />*/}
+      {/*  </Card>*/}
+      {/*</div>*/}
     </>
   );
 }
