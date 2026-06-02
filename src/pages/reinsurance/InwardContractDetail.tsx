@@ -30,13 +30,13 @@ import { useAppStore } from '../../store/appStore';
 import type { BreadcrumbItem } from '../../types/common';
 import { formatCurrency, formatDate, formatPercent } from '../../utils/format';
 
-interface TransactionRecord {
-  id: string;
-  docNo: string;
-  docType: string;
-  postingDate: string;
-  amount: number;
-}
+// interface TransactionRecord {
+//   id: string;
+//   docNo: string;
+//   docType: string;
+//   postingDate: string;
+//   amount: number;
+// }
 
 interface SourceInfoRecord {
   id: string;
