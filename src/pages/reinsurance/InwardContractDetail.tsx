@@ -30,13 +30,13 @@ import { useAppStore } from '../../store/appStore';
 import type { BreadcrumbItem } from '../../types/common';
 import { formatCurrency, formatDate, formatPercent } from '../../utils/format';
 
-// interface TransactionRecord {
-//   id: string;
-//   docNo: string;
-//   docType: string;
-//   postingDate: string;
-//   amount: number;
-// }
+interface TransactionRecord {
+  id: string;
+  docNo: string;
+  docType: string;
+  postingDate: string;
+  amount: number;
+}
 
 interface SourceInfoRecord {
   id: string;
@@ -164,13 +164,76 @@ const selectOptions = {
   users: ['Nguyễn Quản trị', 'Trần Underwriter', 'Lê Supervisor'],
 };
 
-// const transactionRows: TransactionRecord[] = Array.from({ length: 8 }, (_, index) => ({
-//   id: `TRX-${String(index + 1).padStart(3, '0')}`,
-//   docNo: `CT${String(200 + index)}`,
-//   docType: index % 2 === 0 ? 'Premium' : 'Claim',
-//   postingDate: `2026-${String((index % 9) + 1).padStart(2, '0')}-12`,
-//   amount: 12500 + index * 850,
-// }));
+type LookupItem = {
+  code: string;
+  name: string;
+};
+
+type SearchableSelectOption = {
+  key: string;
+  value: string;
+  label: string;
+  searchText: string;
+};
+
+const createLookupItems = (items: string[]): LookupItem[] =>
+  items.map((name, index) => ({
+    code: String(index + 1).padStart(2, '0'),
+    name,
+  }));
+
+const createSearchableSelectOptions = (items: LookupItem[]): SearchableSelectOption[] =>
+  items.map((item) => ({
+    key: item.code,
+    value: item.code,
+    label: `${item.code} | ${item.name}`,
+    searchText: `${item.code} ${item.name}`.toLowerCase(),
+  }));
+
+const findLookupCode = (items: LookupItem[], name: string) => items.find((item) => item.name === name)?.code ?? items[0]?.code ?? '';
+
+const filterSelectOption = (input: string, option?: SearchableSelectOption) => option?.searchText?.includes(input.toLowerCase()) ?? false;
+
+const unitLookupItems: LookupItem[] = [
+  { code: '01', name: 'PVI Hà Nội' },
+  { code: '02', name: 'PVI Sài Gòn' },
+  { code: '03', name: 'PVI RE' },
+];
+
+const statusLookupItems: LookupItem[] = statusOptions.map((item, index) => ({
+  code: String(index + 1).padStart(2, '0'),
+  name: item.label,
+}));
+
+const businessPackageLookupItems = createLookupItems(selectOptions.businessPackages);
+const riskLookupItems = createLookupItems(selectOptions.risks);
+const contractTypeLookupItems = createLookupItems(selectOptions.contractTypes);
+const newRenewalLookupItems = createLookupItems(selectOptions.newRenewal);
+const checklistTypeLookupItems = createLookupItems(selectOptions.checklistTypes);
+const methodLookupItems = createLookupItems(selectOptions.methods);
+const epiTypeLookupItems = createLookupItems(selectOptions.epiTypes);
+const endorsementTypeLookupItems = createLookupItems(selectOptions.endorsementTypes);
+const userLookupItems = createLookupItems(selectOptions.users);
+
+const unitOptions = createSearchableSelectOptions(unitLookupItems);
+const statusSelectOptions = createSearchableSelectOptions(statusLookupItems);
+const businessPackageOptions = createSearchableSelectOptions(businessPackageLookupItems);
+const riskOptions = createSearchableSelectOptions(riskLookupItems);
+const contractTypeOptions = createSearchableSelectOptions(contractTypeLookupItems);
+const newRenewalOptions = createSearchableSelectOptions(newRenewalLookupItems);
+const checklistTypeOptions = createSearchableSelectOptions(checklistTypeLookupItems);
+const methodOptions = createSearchableSelectOptions(methodLookupItems);
+const epiTypeOptions = createSearchableSelectOptions(epiTypeLookupItems);
+const endorsementTypeOptions = createSearchableSelectOptions(endorsementTypeLookupItems);
+const userOptions = createSearchableSelectOptions(userLookupItems);
+
+const transactionRows: TransactionRecord[] = Array.from({ length: 8 }, (_, index) => ({
+  id: `TRX-${String(index + 1).padStart(3, '0')}`,
+  docNo: `CT${String(200 + index)}`,
+  docType: index % 2 === 0 ? 'Premium' : 'Claim',
+  postingDate: `2026-${String((index % 9) + 1).padStart(2, '0')}-12`,
+  amount: 12500 + index * 850,
+}));
 
 const sourceInfoRows: SourceInfoRecord[] = Array.from({ length: 7 }, (_, index) => ({
   id: `SI-${String(index + 1).padStart(2, '0')}`,
@@ -277,12 +340,12 @@ const retroFeeRows: RetroFeeRecord[] = Array.from({ length: 5 }, (_, index) => (
   note: `Khoản phí ${index + 1}`,
 }));
 
-// const transactionColumns: ColumnsType<TransactionRecord> = [
-//   { title: 'Chứng từ', dataIndex: 'docNo', key: 'docNo', width: 120 },
-//   { title: 'Loại', dataIndex: 'docType', key: 'docType', width: 120 },
-//   { title: 'Ngày hạch toán', dataIndex: 'postingDate', key: 'postingDate', width: 140, align: 'center', render: formatDate },
-//   { title: 'Số tiền', dataIndex: 'amount', key: 'amount', align: 'right', render: (value: number) => formatCurrency(value, 'USD') },
-// ];
+const transactionColumns: ColumnsType<TransactionRecord> = [
+  { title: 'Chứng từ', dataIndex: 'docNo', key: 'docNo', width: 120 },
+  { title: 'Loại', dataIndex: 'docType', key: 'docType', width: 120 },
+  { title: 'Ngày hạch toán', dataIndex: 'postingDate', key: 'postingDate', width: 140, align: 'center', render: formatDate },
+  { title: 'Số tiền', dataIndex: 'amount', key: 'amount', align: 'right', render: (value: number) => formatCurrency(value, 'USD') },
+];
 
 const sourceInfoColumns: ColumnsType<SourceInfoRecord> = [
   { title: 'Status', dataIndex: 'status', key: 'status', width: 110, render: (value: string) => <Tag color={value === 'Signed' ? 'green' : 'blue'}>{value}</Tag> },
@@ -432,24 +495,24 @@ export function InwardContractDetail() {
 
   const initialValues = useMemo(
     () => ({
-      unit: 'PVI RE',
+      unit: findLookupCode(unitLookupItems, 'PVI RE'),
       documentDate: dayjs(contract.accountingDate),
-      businessPackage: 'Fire Facultative',
-      underwritingRisk: 'Nhà máy điện',
+      businessPackage: findLookupCode(businessPackageLookupItems, selectOptions.businessPackages[0]),
+      underwritingRisk: findLookupCode(riskLookupItems, selectOptions.risks[0]),
       contractRef: contract.contractRef,
       contractName: contract.contractName,
-      contractType: contract.riType,
-      newRenewal: 'New R/I Contract',
+      contractType: findLookupCode(contractTypeLookupItems, contract.riType),
+      newRenewal: findLookupCode(newRenewalLookupItems, selectOptions.newRenewal[0]),
       renewalContract: '',
-      status: contract.status,
-      checklistType: 'Checklist chuẩn',
+      status: findLookupCode(statusLookupItems, contract.status),
+      checklistType: findLookupCode(checklistTypeLookupItems, selectOptions.checklistTypes[0]),
       inceptionDate: dayjs(contract.inceptionDate),
       expiryDate: dayjs(contract.expiryDate),
       treatyEntryDate: dayjs(contract.inceptionDate).add(3, 'day'),
       endorsementEffectiveDate: dayjs(contract.inceptionDate).add(10, 'day'),
       underwritingYear: contract.underwritingYear,
       underwritingDept: 'Phòng Năng lượng',
-      underwritingMethod: 'Broker',
+      underwritingMethod: findLookupCode(methodLookupItems, selectOptions.methods[1]),
       insuredObject: 'Nhà máy điện công suất lớn',
       coPviShare: 15,
       insuredName: contract.insuredName,
@@ -464,7 +527,7 @@ export function InwardContractDetail() {
       cedantCountry: 'Việt Nam',
       gmt: 7,
       epi: 125000,
-      epiType: 'Gross EPI',
+      epiType: findLookupCode(epiTypeLookupItems, selectOptions.epiTypes[0]),
       cessionLimit: 2500000,
       mdpRate: 4.5,
       premReservedRate: 2.2,
@@ -485,7 +548,7 @@ export function InwardContractDetail() {
       deductible: 'USD 25,000',
       lossHistory: 'Không phát sinh tổn thất lớn trong 3 năm',
       warranty: 'Theo điều khoản Institute Clauses',
-      endorsementType: 'Sửa đổi tăng',
+      endorsementType: findLookupCode(endorsementTypeLookupItems, selectOptions.endorsementTypes[0]),
       endorsementTitle: 'Điều chỉnh giới hạn bồi thường',
       endorsementDetails: 'Bổ sung quyền lợi cho hạng mục turbine và mở rộng phạm vi địa lý vận hành.',
       checklistNo: 'CKL-2026-041',
@@ -498,7 +561,7 @@ export function InwardContractDetail() {
       isProtection: true,
       isProtectionOw: false,
       isBord: true,
-      updatedBy: 'Nguyễn Quản trị',
+      updatedBy: findLookupCode(userLookupItems, selectOptions.users[0]),
     }),
     [contract],
   );
@@ -518,7 +581,10 @@ export function InwardContractDetail() {
           <UserCircle2 size={16} className="text-brand-primary" />
           <Select
             value={initialValues.updatedBy}
-            options={selectOptions.users.map((value) => ({ label: value, value }))}
+            showSearch
+            optionFilterProp="searchText"
+            filterOption={filterSelectOption}
+            options={userOptions}
             style={{ width: 180 }}
           />
         </div>
@@ -698,7 +764,12 @@ export function InwardContractDetail() {
                       <Row gutter={16}>
                         <Col xs={24} md={12} xl={8}>
                           <Form.Item label="Đơn vị" name="unit" required>
-                            <Select options={selectOptions.units.map((value) => ({ label: value, value }))} />
+                            <Select
+                              showSearch
+                              optionFilterProp="searchText"
+                              filterOption={filterSelectOption}
+                              options={unitOptions}
+                            />
                           </Form.Item>
                         </Col>
                         <Col xs={24} md={12} xl={8}>
@@ -708,12 +779,12 @@ export function InwardContractDetail() {
                         </Col>
                         <Col xs={24} md={12} xl={8}>
                           <Form.Item label="Gói nghiệp vụ" name="businessPackage">
-                            <Select showSearch options={selectOptions.businessPackages.map((value) => ({ label: value, value }))} />
+                            <Select showSearch optionFilterProp="searchText" filterOption={filterSelectOption} options={businessPackageOptions} />
                           </Form.Item>
                         </Col>
                         <Col xs={24} md={12} xl={8}>
                           <Form.Item label="Rủi ro khai thác" name="underwritingRisk">
-                            <Select showSearch options={selectOptions.risks.map((value) => ({ label: value, value }))} />
+                            <Select showSearch optionFilterProp="searchText" filterOption={filterSelectOption} options={riskOptions} />
                           </Form.Item>
                         </Col>
                         <Col xs={24} md={12} xl={8}>
@@ -723,7 +794,7 @@ export function InwardContractDetail() {
                         </Col>
                         <Col xs={24} md={12} xl={8}>
                           <Form.Item label="Contract Type" name="contractType">
-                            <Select options={selectOptions.contractTypes.map((value) => ({ label: value, value }))} />
+                            <Select showSearch optionFilterProp="searchText" filterOption={filterSelectOption} options={contractTypeOptions} />
                           </Form.Item>
                         </Col>
                         <Col xs={24} xl={16}>
@@ -733,7 +804,7 @@ export function InwardContractDetail() {
                         </Col>
                         <Col xs={24} md={12} xl={4}>
                           <Form.Item label="New/Renewal" name="newRenewal">
-                            <Select options={selectOptions.newRenewal.map((value) => ({ label: value, value }))} />
+                            <Select showSearch optionFilterProp="searchText" filterOption={filterSelectOption} options={newRenewalOptions} />
                           </Form.Item>
                         </Col>
                         <Col xs={24} md={12} xl={4}>
@@ -743,12 +814,12 @@ export function InwardContractDetail() {
                         </Col>
                         <Col xs={24} md={12} xl={4}>
                           <Form.Item label="Trạng thái" name="status">
-                            <Select options={statusOptions} />
+                            <Select showSearch optionFilterProp="searchText" filterOption={filterSelectOption} options={statusSelectOptions} />
                           </Form.Item>
                         </Col>
                         <Col xs={24} md={12} xl={4}>
                           <Form.Item label="Checklist Type" name="checklistType">
-                            <Select options={selectOptions.checklistTypes.map((value) => ({ label: value, value }))} />
+                            <Select showSearch optionFilterProp="searchText" filterOption={filterSelectOption} options={checklistTypeOptions} />
                           </Form.Item>
                         </Col>
                       </Row>
@@ -793,7 +864,7 @@ export function InwardContractDetail() {
                         </Col>
                         <Col xs={24} md={12} xl={8}>
                           <Form.Item label="Phương thức K.thác" name="underwritingMethod">
-                            <Select options={selectOptions.methods.map((value) => ({ label: value, value }))} />
+                            <Select showSearch optionFilterProp="searchText" filterOption={filterSelectOption} options={methodOptions} />
                           </Form.Item>
                         </Col>
                         <Col xs={24} md={12} xl={8}>
@@ -873,7 +944,7 @@ export function InwardContractDetail() {
                         </Col>
                         <Col xs={24} md={12} xl={8}>
                           <Form.Item label="Loại phí EPI" name="epiType">
-                            <Select options={selectOptions.epiTypes.map((value) => ({ label: value, value }))} />
+                            <Select showSearch optionFilterProp="searchText" filterOption={filterSelectOption} options={epiTypeOptions} />
                           </Form.Item>
                         </Col>
                         <Col xs={24} md={12} xl={8}>
@@ -988,7 +1059,7 @@ export function InwardContractDetail() {
                       <Row gutter={16}>
                         <Col xs={24} md={12} xl={8}>
                           <Form.Item label="Loại SĐBS" name="endorsementType">
-                            <Select options={selectOptions.endorsementTypes.map((value) => ({ label: value, value }))} />
+                            <Select showSearch optionFilterProp="searchText" filterOption={filterSelectOption} options={endorsementTypeOptions} />
                           </Form.Item>
                         </Col>
                         <Col xs={24} md={12} xl={16}>
@@ -1060,22 +1131,91 @@ export function InwardContractDetail() {
                       </Row>
                     </Card>
 
-                    <Card className="rounded-2xl shadow-panel">
-                      <NestedTabs
-                        items={[
-                          {
-                            key: 'details',
-                            label: 'Details',
-                            children: <SimpleDataTable columns={sourceDetailColumns} dataSource={sourceDetailRows} rowKey="id" pagination={{ pageSize: 5 }} />,
-                          },
-                          {
-                            key: 'installment',
-                            label: 'Installment',
-                            children: <SimpleDataTable columns={installmentColumns} dataSource={installmentRows} rowKey="id" pagination={false} />,
-                          },
-                        ]}
-                      />
-                    </Card>
+                    {/*<Card className="rounded-2xl shadow-panel">*/}
+                    {/*  <NestedTabs*/}
+                    {/*    items={[*/}
+                    {/*      {*/}
+                    {/*        key: 'details',*/}
+                    {/*        label: 'Details',*/}
+                    {/*        children: <SimpleDataTable columns={sourceDetailColumns} dataSource={sourceDetailRows} rowKey="id" pagination={{ pageSize: 5 }} />,*/}
+                    {/*      },*/}
+                    {/*      {*/}
+                    {/*        key: 'installment',*/}
+                    {/*        label: 'Installment',*/}
+                    {/*        children: <SimpleDataTable columns={installmentColumns} dataSource={installmentRows} rowKey="id" pagination={false} />,*/}
+                    {/*      },*/}
+                    {/*    ]}*/}
+                    {/*  />*/}
+                    {/*</Card>*/}
+                      <Card className="rounded-2xl shadow-panel" >
+                        <Tabs
+                            items={[
+                              {
+                                key: 'details-tabs',
+                                label: 'Details',
+                                children: (
+                                    <NestedTabs
+                                        size="small"
+                                        items={[
+                                          {
+                                            key: 'structure',
+                                            label: 'Structure',
+                                            children: <SimpleDataTable columns={sectionRetroColumns} dataSource={sectionRetroRows} rowKey="id" pagination={false} />,
+                                          },
+                                          {
+                                            key: 'prem-payment-terms',
+                                            label: 'Prem Payment Terms',
+                                            children: <SimpleDataTable columns={installmentColumns} dataSource={installmentRows} rowKey="id" pagination={false} />,
+                                          },
+                                          {
+                                            key: 'accumulation',
+                                            label: 'Accumulation',
+                                            children: <SimpleDataTable columns={sourceDetailColumns} dataSource={sourceDetailRows.slice(0, 4)} rowKey="id" pagination={false} />,
+                                          },
+                                          {
+                                            key: 'protection',
+                                            label: 'Protection',
+                                            children: <SimpleDataTable columns={retroFeeColumns} dataSource={retroFeeRows} rowKey="id" pagination={false} />,
+                                          },
+                                        ]}
+                                    />
+                                ),
+                              },
+                              {
+                                key: 'statistics-tabs',
+                                label: 'Statistics',
+                                children: (
+                                    <NestedTabs
+                                        size="small"
+                                        items={[
+                                          {
+                                            key: 'claim-information',
+                                            label: 'Claim Information',
+                                            children: <SimpleDataTable columns={transactionColumns} dataSource={transactionRows.slice(0, 4)} rowKey="id" pagination={false} />,
+                                          },
+                                          {
+                                            key: 'policy-efficiency',
+                                            label: 'Hiệu quả đơn',
+                                            children: <SimpleDataTable columns={transactionColumns} dataSource={transactionRows.slice(1, 5)} rowKey="id" pagination={false} />,
+                                          },
+                                          {
+                                            key: 'contract-efficiency',
+                                            label: 'Hiệu quả HĐ',
+                                            children: <SimpleDataTable columns={transactionColumns} dataSource={transactionRows.slice(2, 6)} rowKey="id" pagination={false} />,
+                                          },
+                                          {
+                                            key: 'placement-efficiency',
+                                            label: 'Hiệu quả thu xếp',
+                                            children: <SimpleDataTable columns={transactionColumns} dataSource={transactionRows.slice(3, 7)} rowKey="id" pagination={false} />,
+                                          },
+                                        ]}
+                                    />
+                                ),
+                              },
+                            ]}
+                        />
+                      </Card>
+
                   </div>
                 ),
               },

@@ -8,7 +8,6 @@ import {
   FileSpreadsheet,
   FolderCog,
   Landmark,
-  LogOut,
   NotebookTabs,
   Scale,
   Settings,
@@ -101,9 +100,13 @@ export const topMenus: TopMenuConfig[] = [
       { key: 'release-note', label: 'Thông báo phát hành', path: placeholder('help', 'thong-bao-phat-hanh'), icon: BookOpen },
     ],
   },
-  {
-    key: 'logout',
-    label: 'Đăng xuất',
-    children: [{ key: 'logout-action', label: 'Đăng xuất hệ thống', path: placeholder('system', 'dang-xuat'), icon: LogOut }],
-  },
 ];
+
+export function findTopMenuByPath(pathname: string): TopMenuConfig {
+  const match = topMenus.find((menu) => menu.children.some((item) => pathname.startsWith(item.path)));
+  if (match) {
+    return match;
+  }
+
+  return topMenus.find((menu) => menu.key === 'reinsurance') ?? topMenus[0];
+}

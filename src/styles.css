@@ -52,8 +52,64 @@ body {
   background: transparent;
 }
 
-.ant-menu-inline.ant-menu-root .ant-menu-item,
-.ant-menu-inline.ant-menu-root .ant-menu-submenu-title {
-  margin-inline: 8px;
-  width: calc(100% - 16px);
+.ant-dropdown .ant-dropdown-menu {
+  border-radius: 18px;
+  padding: 10px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+}
+
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item {
+  border-radius: 12px;
+  padding-block: 10px;
+}
+
+.ant-progress .ant-progress-inner {
+  border-radius: 999px;
+}
+
+.app-sidebar-motion.ant-layout-sider,
+.app-sidebar-motion .ant-layout-sider-children {
+  transition:
+    width 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    min-width 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    max-width 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.app-sidebar-shell,
+.app-sidebar-scroll,
+.app-sidebar-motion button,
+.app-sidebar-motion .ant-avatar,
+.app-sidebar-motion .ant-progress,
+.app-sidebar-motion .ant-typography {
+  transition:
+    opacity 180ms ease,
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.app-sidebar-expanded .app-sidebar-shell {
+  transform: translateX(0);
+}
+
+.app-sidebar-collapsed .app-sidebar-shell {
+  transform: translateX(-2px);
+}
+
+.app-sidebar-fadein-delayed {
+  opacity: 0;
+  animation: appSidebarFadeInDelayed 0.5s ease 0.22s forwards;
+}
+
+@keyframes appSidebarFadeInDelayed {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
