@@ -31,7 +31,7 @@ export const topMenus: TopMenuConfig[] = [
     label: 'Từ điển',
     children: [
       { key: 'lob-master', label: 'Danh mục LOB', path: placeholder('dictionary', 'danh-muc-lob'), icon: BookOpen },
-      { key: 'partner-master', label: 'Danh mục đối tác', path: placeholder('dictionary', 'danh-muc-doi-tac'), icon: Landmark },
+      { key: 'customer-master', label: 'Danh mục khách hàng', path: '/dictionary/customer-master', icon: Landmark },
       { key: 'currency-master', label: 'Danh mục tiền tệ', path: placeholder('dictionary', 'danh-muc-tien-te'), icon: Calculator },
     ],
   },
