@@ -164,13 +164,13 @@ const selectOptions = {
   users: ['Nguyễn Quản trị', 'Trần Underwriter', 'Lê Supervisor'],
 };
 
-const transactionRows: TransactionRecord[] = Array.from({ length: 8 }, (_, index) => ({
-  id: `TRX-${String(index + 1).padStart(3, '0')}`,
-  docNo: `CT${String(200 + index)}`,
-  docType: index % 2 === 0 ? 'Premium' : 'Claim',
-  postingDate: `2026-${String((index % 9) + 1).padStart(2, '0')}-12`,
-  amount: 12500 + index * 850,
-}));
+// const transactionRows: TransactionRecord[] = Array.from({ length: 8 }, (_, index) => ({
+//   id: `TRX-${String(index + 1).padStart(3, '0')}`,
+//   docNo: `CT${String(200 + index)}`,
+//   docType: index % 2 === 0 ? 'Premium' : 'Claim',
+//   postingDate: `2026-${String((index % 9) + 1).padStart(2, '0')}-12`,
+//   amount: 12500 + index * 850,
+// }));
 
 const sourceInfoRows: SourceInfoRecord[] = Array.from({ length: 7 }, (_, index) => ({
   id: `SI-${String(index + 1).padStart(2, '0')}`,
@@ -277,12 +277,12 @@ const retroFeeRows: RetroFeeRecord[] = Array.from({ length: 5 }, (_, index) => (
   note: `Khoản phí ${index + 1}`,
 }));
 
-const transactionColumns: ColumnsType<TransactionRecord> = [
-  { title: 'Chứng từ', dataIndex: 'docNo', key: 'docNo', width: 120 },
-  { title: 'Loại', dataIndex: 'docType', key: 'docType', width: 120 },
-  { title: 'Ngày hạch toán', dataIndex: 'postingDate', key: 'postingDate', width: 140, align: 'center', render: formatDate },
-  { title: 'Số tiền', dataIndex: 'amount', key: 'amount', align: 'right', render: (value: number) => formatCurrency(value, 'USD') },
-];
+// const transactionColumns: ColumnsType<TransactionRecord> = [
+//   { title: 'Chứng từ', dataIndex: 'docNo', key: 'docNo', width: 120 },
+//   { title: 'Loại', dataIndex: 'docType', key: 'docType', width: 120 },
+//   { title: 'Ngày hạch toán', dataIndex: 'postingDate', key: 'postingDate', width: 140, align: 'center', render: formatDate },
+//   { title: 'Số tiền', dataIndex: 'amount', key: 'amount', align: 'right', render: (value: number) => formatCurrency(value, 'USD') },
+// ];
 
 const sourceInfoColumns: ColumnsType<SourceInfoRecord> = [
   { title: 'Status', dataIndex: 'status', key: 'status', width: 110, render: (value: string) => <Tag color={value === 'Signed' ? 'green' : 'blue'}>{value}</Tag> },
